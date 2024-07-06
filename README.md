@@ -1,7 +1,7 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/76mHqLr5)
 
 ## How to Run
-Run the makefile (or just do gcc 
+Run the makefile (or just do gcc -g main.c prompt.c)
 
 ## Overview
 This project involves building a custom shell in C, similar to the Unix shell, with functionalities including basic system commands, process management, file operations, and networking. The shell supports a range of features from command execution to process control and file manipulation.
