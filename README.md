@@ -32,9 +32,9 @@
                 - -a : Show hidden files
                 - -l : Show detailed view (permissions, size, timestamps)
          - # Features:
-               - Color-coded output (blue for directories, green for executables)
-               - Sorted listing
-               - Shows total block size when using -l
+             - Color-coded output (blue for directories, green for executables)
+             - Sorted listing
+             - Shows total block size when using -l
      - # Proclore-Process information display
          - Shows PID, status, group, memory, executable path
          - Usage: proclore [pid]
@@ -46,9 +46,9 @@
                - pastevents purge : Clear history
                - pastevents execute <index> : Execute command from history
          - # Features:
-               - Persistent storage across sessions
-               - Prevents duplicate consecutive commands
-               - Stores up to MAX_HISTORY_SIZE commands
+            - Persistent storage across sessions
+            - Prevents duplicate consecutive commands
+            - Stores up to MAX_HISTORY_SIZE commands
      - # Background/Foreground Process Management
          - Background Execution:
              - Add & at end of command
@@ -57,20 +57,20 @@
          - Foreground Execution:
              - Regular command execution
              - Shows execution time for processes taking > 2 seconds
-         - Features:
+         - # Features:
              - Process status monitoring
              - Exit status reporting
              - Background process cleanup
-         - Example:
-             - Backgrund: sleep 10 &
-             - Foreground: sleep 5
+         - # Example:
+               - Backgrund: sleep 10 &
+               - Foreground: sleep 5
      - # System Commands
         - Supports standard system commands through execvp
-        - Examples:
-           - cat file.txt
-           - grep pattern file
-           - ps aux
-           - Any other valid system command
+        - # Examples:
+              - cat file.txt
+              - grep pattern file
+              - ps aux
+              - Any other valid system command
 
            
       
