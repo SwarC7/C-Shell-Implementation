@@ -20,7 +20,7 @@
          - Support for absolute/relative paths
          - Special arguments: ~, -, ..
          - Usage: warp [directory]
-         - Options:
+         - # Options:
                 - warp ~ : Navigate to home directory
                 - warp - : Go to previous directory
                 - warp .. : Move up one directory
