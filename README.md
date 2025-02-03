@@ -72,8 +72,7 @@
      - Process creation and termination handling
      - Process information retrieval
  
-# System Architecture
-  # Core Components
+   # Core Components
    - # 1.Main Controller (main.c)
         - Command parsing and routing
         - Shell loop management
