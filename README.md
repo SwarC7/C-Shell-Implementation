@@ -116,9 +116,9 @@
 
 # How to Run
 - # 1.Compilation
-    make (or) gcc -g main.c prompt.c
+      - make (or) gcc -g main.c prompt.c
 - # 2.Execution
-    ./a.out
+      - ./a.out
 
 # Implementation Details
 
