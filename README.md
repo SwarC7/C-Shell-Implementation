@@ -20,18 +20,18 @@
          - Support for absolute/relative paths
          - Special arguments: ~, -, ..
          - Usage: warp [directory]
-         -  Options:
-                - # warp ~ : Navigate to home directory
-                - # warp - : Go to previous directory
+         - # Options:
+                - warp ~ : Navigate to home directory
+                - warp - : Go to previous directory
                 - warp .. : Move up one directory
                 - warp [path] : Navigate to specified path (absolute/relative)
      - # Peek-Directory listing (similar to ls)
          - Flags: -a (show hidden), -l (detailed view)
          - Usage: peek [options] [directory]
-         - Options:
+         - # Options:
                 - -a : Show hidden files
                 - -l : Show detailed view (permissions, size, timestamps)
-         - Features:
+         - # Features:
                - Color-coded output (blue for directories, green for executables)
                - Sorted listing
                - Shows total block size when using -l
@@ -41,11 +41,11 @@
          - Note: Cannot access root process information
      - # Pastevents-Command history management
          - Store/display command history
-         - Usage:
+         - # Usage:
                - pastevents : Display command history
                - pastevents purge : Clear history
                - pastevents execute <index> : Execute command from history
-         - Features:
+         - # Features:
                - Persistent storage across sessions
                - Prevents duplicate consecutive commands
                - Stores up to MAX_HISTORY_SIZE commands
