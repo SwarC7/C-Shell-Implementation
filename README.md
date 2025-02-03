@@ -20,9 +20,9 @@
          - Support for absolute/relative paths
          - Special arguments: ~, -, ..
          - Usage: warp [directory]
-         - # Options:
-                - warp ~ : Navigate to home directory
-                - warp - : Go to previous directory
+         -  Options:
+                - # warp ~ : Navigate to home directory
+                - # warp - : Go to previous directory
                 - warp .. : Move up one directory
                 - warp [path] : Navigate to specified path (absolute/relative)
      - # Peek-Directory listing (similar to ls)
