@@ -1,146 +1,115 @@
 # Custom C Shell Implementation
-- This project implements a custom Unix-like shell in C, providing core shell functionalities including command execution, process management, file operations, and command history management. The shell aims to replicate basic features of standard Unix shells while adding some custom functionality.
 
-  
-# Key features
-- # 1.Command Execution
-     - Foreground Process Execution: Commands run in foreground with parent process waiting
-     - Background Process Execution: Commands with '&' suffix run in background
-     - Multiple Command Support: Handles multiple commands separated by semicolons
-     - Process Time Tracking: Displays execution time for processes taking > 2 seconds
-- # 2.Built-in Commands
-     - # Warp-Directory navigation (similar to cd)
-         - Support for absolute/relative paths
-         - Special arguments: ~, -, ..
-         - Usage: warp [directory]
-         - # Options:
-                - warp ~ : Navigate to home directory
-                - warp - : Go to previous directory
-                - warp .. : Move up one directory
-                - warp [path] : Navigate to specified path (absolute/relative)
-     - # Peek-Directory listing (similar to ls)
-         - Flags: -a (show hidden), -l (detailed view)
-         - Usage: peek [options] [directory]
-         - # Options:
-                - -a : Show hidden files
-                - -l : Show detailed view (permissions, size, timestamps)
-         - # Features:
-             - Color-coded output (blue for directories, green for executables)
-             - Sorted listing
-             - Shows total block size when using -l
-     - # Proclore-Process information display
-         - Shows PID, status, group, memory, executable path
-         - Usage: proclore [pid]
-         - Note: Cannot access root process information
-     - # Pastevents-Command history management
-         - Store/display command history
-         - # Usage:
-               - pastevents : Display command history
-               - pastevents purge : Clear history
-               - pastevents execute <index> : Execute command from history
-         - # Features:
-            - Persistent storage across sessions
-            - Prevents duplicate consecutive commands
-            - Stores up to MAX_HISTORY_SIZE commands
-     - # Background/Foreground Process Management
-         - Background Execution:
-             - Add & at end of command
-             - Shows process ID when launched
-             - Notifies on completion
-         - Foreground Execution:
-             - Regular command execution
-             - Shows execution time for processes taking > 2 seconds
-         - # Features:
-             - Process status monitoring
-             - Exit status reporting
-             - Background process cleanup
-         - # Example:
-               - Backgrund: sleep 10 &
-               - Foreground: sleep 5
-     - # System Commands
-        - Supports standard system commands through execvp
-        - # Examples:
-              - cat file.txt
-              - grep pattern file
-              - ps aux
-              - Any other valid system command
+## Project Overview
+This project implements a fully-functional Unix-like shell written entirely in C, designed to demonstrate core systems programming concepts including process management, file operations, and command parsing. Developed as a showcase of low-level programming skills, this shell replicates key features of standard shells like bash while adding custom functionality.
 
-           
-      
-- # 3.Process Management
-     - Background process status monitoring
-     - Process creation and termination handling
-     - Process information retrieval
- 
-   # Core Components
-   - # 1.Main Controller (main.c)
-        - Command parsing and routing
-        - Shell loop management
-        - Signal handling
-   - # 2.Process Handler (bgfghandling.c)
-        - Process creation (fork/exec)
-        - Background process tracking
-        - Process status monitoring
-   - # 3.Command Processors
-        - Directory operations (printdirectorycontent.c)
-        - Process information (printprocinfo.c)
-        - History management (pastevents.c)
-   - # 4.Utility Modules
-       - String handling (trimspaces.c)
-       - File detail printing (printdetails.c)
+**Key Value Proposition**:
+- Demonstrates deep understanding of Linux/Unix internals
+- Showcases clean C code architecture
+- Implements complex systems programming concepts
+- Features persistent command history and background process management
 
-# Control Flow
-  - # 1.Shell Initalisation
-      - Load command history
-      - Set up signal handlers
+## Features & Technical Highlights
 
-  - # 2.Command Processing Loop
-      - Display prompt
-      - Read user input
-      - Parse commands (handle semicolon separation)
-      - For each command:
-                  - Check for built-in commands
-                  - Process commnd flags/arguments
-                  - Execute appropriate handler
-     - Check background process status
+### Core Shell Functionality
+- **Command Parsing Engine**: Handles complex input including:
+  - Multiple commands separated by semicolons
+  - Background processes (with `&` suffix)
+  - Built-in vs system command routing
+- **Process Management**:
+  - Fork/exec implementation with proper signal handling
+  - Foreground/background process tracking
+  - Automatic reaping of zombie processes
+  - Execution time reporting for long-running processes
 
- -  # 3.Command Execution
-      - Fork new process
-      - In child:
-            - Set up environment
-            - Execute command
-      - In parent:
-            - Track process (background/foreground)
-            - Wait if foreground
-            - Update status if background
+### Custom Built-in Commands
 
-# How to Run
-- # 1.Compilation
-      - make (or) gcc -g main.c prompt.c
-- # 2.Execution
-      - ./a.out
+#### `warp` - Enhanced Directory Navigation
+```bash
+warp ~       # Home directory (uses getenv("HOME"))
+warp -       # Previous directory (maintains stack)
+warp ..      # Parent directory (chdir implementation)
+warp /path   # Absolute/relative path resolution
+```
+*Implementation Details*: Uses `chdir()` with path resolution and maintains previous directory state.
 
-# Implementation Details
+#### `peek` - Advanced File Listing
+```bash
+peek -a      # Shows hidden files (implements . file filtering)
+peek -l      # Detailed view with permissions/size (uses stat())
+peek -al     # Combines flags (proper flag parsing)
+```
+*Technical Notes*: Implements `opendir()/readdir()` with custom sorting and colored output.
 
-  - # 1.Process Management
-     - Uses fork() for process creation
-     - execvp() for command execution
-     - waitpid() for process status monitoring
-     - Background processes tracked in global array
-  - # 2.File Operations
-     - Directory operations using opendir/readdir
-     - File status using stat()
-     - Path manipulation for relative/absolute paths
-  - # 3.Command History
-     - Circular buffer implementation
-     - Persistent storage in file
-     - Duplicate command filtering
-   
-# Assumptions and Limitatons
- - Proclore limited to user processes (no root access)
- - Background/foreground handling limited to bash commands
- - Invalid commands are saved in history
- - Shell exits with Ctrl+C
-     
-  
-  
+#### `proclore` - Process Inspection
+```bash
+proclore      # Shows shell process info
+proclore 1234 # Details for PID 1234
+```
+*Implementation*: Parses `/proc/[pid]/` filesystem to extract process details.
+
+#### `pastevents` - Persistent Command History
+```bash
+pastevents           # Shows numbered history
+pastevents purge     # Clears history (maintains file integrity)
+pastevents execute 3 # Re-executes command #3
+```
+*Architecture*: Circular buffer implementation with file persistence (`history.txt`).
+
+## Technical Deep Dive
+
+### Code Structure
+```text
+├── main.c            # Core shell loop and dispatcher
+├── bgfghandling.c    # Process creation/management
+├── pastevents.c      # History implementation
+├── printprocinfo.c   # Process inspection logic
+├── printdirectorycontent.c # File listing
+└── headers.h         # Common definitions
+```
+
+### Key Algorithms
+1. **Command Processing Pipeline**:
+   - Input tokenization (handles quoting/spaces)
+   - Semicolon separation
+   - Built-in vs external command routing
+
+2. **Background Process Manager**:
+   - Tracks PIDs in global array
+   - Periodic status checks via `waitpid(WNOHANG)`
+   - Notification system for completed processes
+
+3. **History System**:
+   - Circular buffer with O(1) insertion
+   - File I/O for persistence
+   - Duplicate command filtering
+
+## Building & Running
+```bash
+# Compile with debug symbols
+gcc -g main.c prompt.c -o custom_shell
+
+# Run the shell
+./custom_shell
+```
+
+
+
+### Key Technical Demonstrations
+- **Systems Programming**: Direct interaction with Linux kernel APIs
+- **Memory Management**: Proper allocation/freeing throughout
+- **Error Handling**: Comprehensive error checking/reporting
+- **Signal Handling**: SIGCHLD for background processes
+- **File I/O**: History persistence implementation
+
+### Design Decisions
+1. **Modular Architecture**: Separated concerns into logical modules
+2. **Error Resilience**: Graceful handling of invalid commands
+3. **User Experience**: Color output, execution timing, etc.
+4. **Performance**: Minimal overhead in main loop
+
+
+## Author
+[C Swaroop]
+[cswaroop2004@gmail.com]
+[https://github.com/SwarC7]
